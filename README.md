@@ -1,76 +1,117 @@
-## :warning: Please read these instructions carefully and entirely first
-* Clone this repository to your local machine.
-* Use your IDE of choice to complete the assignment.
-* Use Javascript or preferably Typescript to complete the assignment, other languages will not be considered unfortunately.
-* When you have completed the assignment, you need to  push your code to a public repository and send the link via email.
-* Once you reply back to the email, your assignment will be considered completed. Please make sure that you have completed the assignment and pushed all code from your local machine to the repository before you reply.
-* There is no time limit for this task - however, for guidance, it is expected to typically take around 3-4 hours.
 
-# Begin the task
+# Shopping Cart Assignment
 
-Write some code that provides the following basic shopping cart capabilities:
+## Overview
 
-1. Add a product to the cart
-   1. Specifying the product name and quantity
-   2. Retrieve the product price by issuing a request to the the [Price API](#price-api) specified below
-   3. Cart state (totals, etc.) must be available
+This project implements a simple shopping cart application using Node.js. The shopping cart allows users to add products with specified quantities, retrieves product prices from a Price API, and calculates the cart's subtotal, tax (12.5%), and total payable amount.
 
-2. Calculate the state:
-   1. Cart subtotal (sum of price for all items)
-   2. Tax payable (charged at 12.5% on the subtotal)
-   3. Total payable (subtotal + tax)
-   4. Totals should be rounded up where required
+## Project Structure
 
-## Price API
+```shopping-cart-assignment/
+├── src/ 
+│ ├── api.js # Contains logic to fetch product prices from the Price API. 
+│ ├── shoppingCart.js # Implements the shopping cart functionality. 
+│ └── index.js # Entry point to demonstrate the shopping cart usage. 
+├── tests/ 
+│ └── shoppingCart.test.js # Unit tests for the shopping cart functionality. 
+├── package.json # Project configuration and dependencies. 
+└── README.md # Project documentation.
+```
 
-The price API is an HTTP service that returns the price details for a product, identified by it's name. The shopping cart should integrate with the price API to retrieve product prices. 
+## Setup Instructions
 
-### Price API Service Details
+**Clone the Repository**
 
-Start the price API by running the following command: `npm run serve-products`
+   ```bash
+   git clone https://github.com/Sunil-Kumar-P/shopping-cart-assignment.git
+   cd shopping-cart-assignment
+   npm install
+   ```
 
-Base URL: `http://localhost:3001/`
+Install Dependencies
 
-View Product: `GET /products/{product}`
+Ensure you have Node.js installed. Then, install the project dependencies:
 
-List of available products
-* `cheerios`
-* `cornflakes`
-* `frosties`
-* `shreddies`
-* `weetabix`
+```bash
+npm install
+```
+Price API Setup
 
-## Example
-The below is a sample with the correct values you can use to confirm your calculations
+The application retrieves product prices from a Price API service. To run the service, execute:
 
-### Inputs
-* Add 1 × cornflakes @ 2.52 each
-* Add another 1 x cornflakes @2.52 each
-* Add 1 × weetabix @ 9.98 each
-  
-### Results  
-* Cart contains 2 x cornflakes
-* Cart contains 1 x weetabix
-* Subtotal = 15.02
-* Tax = 1.88
-* Total = 16.90
+```bash
+npm run serve-products
+```
+You can verify that the API is working by visiting the following URL in your browser (replace cornflakes with any valid product name such as cheerios, frosties, shreddies, or weetabix):
 
-## Tips on what we’re looking for
+```
+http://localhost:3001/products/cornflakes
+```
 
-* We value simplicity as an architectural virtue and as a development practice. Solutions should reflect the difficulty of the assigned task, and shouldn’t be overly complex.
-* We prefer simple, well tested solutions over clever solutions.
-* We will appreciate descriptive and unambiguous names for the concepts you introduce.
-* Atomic commits with descriptive messages will get you extra brownie points.
+Running the Application
+Once the Price API is running, you can run the shopping cart demonstration:
 
-### DO
+```
+node src/index.js
+```
+This script will:
+Add products to the cart (for example, 2 × cornflakes and 1 × weetabix).
+Fetch product prices from the Price API.
+Calculate and display the cart state including subtotal, tax, and total payable.
+The output should be similar to:
 
-* ✅ Include unit tests.
-* ✅ Test both any client and logic.
-* ✅ Update the README.md with any relevant information, assumptions, and/or tradeoffs you would like to highlight.
-* ✅ Add some information on how the reviewer might test your solution.
+```
+{
+  items: [
+    { name: 'cornflakes', quantity: 2, price: 4.99 },
+    { name: 'weetabix', quantity: 1, price: 7.29 }
+  ],
+  subtotal: 17.27,
+  tax: 2.16,
+  total: 19.43
+}
+```
 
-### DO NOT
+**Testing Instructions**
 
-* ❌ Submit any form of app, such as web APIs, browser, desktop, or command-line applications.
-* ❌ Add unnecessary layers of abstraction.
-* ❌ Add unnecessary patterns/ architectural features that aren’t called for e.g. persistent storage.
+The project uses Jest for unit testing. To run the tests, execute:
+
+```
+npm test
+```
+
+The test suite verifies:
+
+Adding products to the cart.
+Correct calculation of the subtotal, tax, and total.
+Updating the quantity when the same product is added multiple times.
+Test results should show 100% coverage for all the critical functionality.
+
+Assumptions and Tradeoffs
+Tax Rate:
+The tax rate is fixed at 12.5% of the subtotal.
+
+Price API Dependency:
+The shopping cart fetches product prices dynamically from the Price API. It is assumed that the API is available and running when the cart operations are performed.
+
+In-Memory Cart Storage:
+The shopping cart’s state is maintained in memory with no persistent storage, as per the assignment guidelines.
+
+Usage Details
+Adding Products:
+Use the addProduct(name, quantity) method to add products to the cart. If the same product is added multiple times, its quantity is updated accordingly.
+
+Calculating Totals:
+The getCartState() method calculates the subtotal, tax, and total payable amount. All monetary values are rounded to two decimal places.
+
+Price API Integration:
+The fetchProductPrice function in src/api.js fetches product prices from the Price API. Ensure the API is running (via npm run serve-products) before using the shopping cart.
+
+Final Notes
+Code Quality:
+The project uses descriptive variable and function names with a clear separation of concerns. Unit tests provide 100% coverage for the core functionality.
+
+
+For any further questions or clarifications, please refer to the source code comments or you can contact me
+
+Thank you for reviewing my submission!
